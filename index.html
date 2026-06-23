@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECO 210: Transport Economics — CBT Practice</title>
+<style>
+  :root{
+    --bg:#05101f;
+    --card:#0d1f38;
+    --border:#1e3a5f;
+    --accent:#38bdf8;
+    --text:#f1f5f9;
+    --muted:#64748b;
+    --muted2:#94a3b8;
+    --green:#22c55e;
+    --green-bg:#052e16;
+    --green-border:#22c55e;
+    --green-text:#86efac;
+    --red:#ef4444;
+    --red-bg:#2d0a0a;
+    --red-border:#ef4444;
+    --red-text:#fca5a5;
+    --amber:#f59e0b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    font-family:'Segoe UI', system-ui, sans-serif;
+    color:var(--text);
+    min-height:100vh;
+  }
+  .screen{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .hidden{display:none !important;}
+
+  /* ===== HOME ===== */
+  #home .wrap{max-width:660px;width:100%;text-align:center;}
+  .emoji-row{font-size:52px;margin-bottom:8px;}
+  .eyebrow{color:var(--muted);font-size:12px;letter-spacing:4px;text-transform:uppercase;margin-bottom:10px;}
+  h1{color:var(--text);font-size:30px;font-weight:900;margin:0 0 6px;line-height:1.2;}
+  h2.sub{color:var(--accent);font-size:18px;font-weight:700;margin:0 0 24px;}
+
+  .stats-grid{
+    background:var(--card);
+    border-radius:16px;
+    padding:18px 22px;
+    margin-bottom:24px;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:12px;
+  }
+  .stat{text-align:center;}
+  .stat .v{color:var(--accent);font-size:26px;font-weight:900;}
+  .stat .l{color:var(--muted);font-size:11px;}
+
+  .select-label{color:var(--muted2);font-size:12px;text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+  .chip{
+    padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);
+    font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;
+    background:transparent;color:var(--muted);
+  }
+  .chip.active{background:var(--accent);border-color:var(--accent);color:var(--bg);}
+  .chip-info{color:var(--muted2);font-size:12px;margin-top:10px;}
+
+  .start-btn{
+    background:var(--accent);color:var(--bg);border:none;border-radius:14px;
+    padding:16px 0;font-size:16px;font-weight:900;cursor:pointer;
+    width:100%;max-width:360px;letter-spacing:.5px;margin-top:22px;
+  }
+  .footnote{color:#334155;font-size:11px;margin-top:14px;}
+
+  /* ===== SUMMARY ===== */
+  #summary .wrap{max-width:580px;width:100%;text-align:center;}
+  .summary-emoji{font-size:52px;margin-bottom:12px;}
+  .summary-grade{font-size:18px;font-weight:800;margin-bottom:24px;}
+  .score-card{background:var(--card);border-radius:20px;padding:28px;margin-bottom:24px;}
+  .score-pct{color:var(--accent);font-size:60px;font-weight:900;}
+  .score-sub{color:#cbd5e1;font-size:14px;margin-bottom:16px;}
+  .bar-track{background:var(--border);border-radius:100px;height:10px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:100px;}
+
+  .breakdown{background:var(--card);border-radius:16px;padding:18px 20px;margin-bottom:24px;text-align:left;}
+  .breakdown-title{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;}
+  .bd-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+  .bd-ch{color:var(--muted);font-size:11px;width:68px;flex-shrink:0;}
+  .bd-track{flex:1;background:var(--border);border-radius:100px;height:5px;overflow:hidden;}
+  .bd-fill{height:100%;border-radius:100px;}
+  .bd-score{color:var(--text);font-size:11px;width:44px;text-align:right;}
+
+  .summary-actions{display:flex;gap:12px;}
+  .btn{
+    flex:1;border-radius:12px;padding:14px;font-size:13px;cursor:pointer;
+  }
+  .btn-outline-accent{background:transparent;color:var(--accent);border:1.5px solid var(--accent);font-weight:700;}
+  .btn-fill-accent{background:var(--accent);color:var(--bg);border:none;font-weight:800;}
+  .btn-outline-muted{background:transparent;color:var(--muted2);border:1.5px solid #334155;font-weight:700;}
+
+  /* ===== QUIZ ===== */
+  #quiz{align-items:stretch;justify-content:flex-start;padding:16px 16px 40px;}
+  #quiz .wrap{max-width:700px;margin:0 auto;width:100%;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+  .home-link{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0;}
+  .qcount{color:var(--muted);font-size:13px;}
+  .qcount b{color:var(--accent);font-weight:800;}
+  .score-display{color:var(--green);font-size:13px;font-weight:800;}
+
+  .progress-track{background:var(--card);border-radius:100px;height:4px;margin-bottom:18px;overflow:hidden;}
+  .progress-fill{height:100%;background:var(--accent);border-radius:100px;transition:width .3s;}
+
+  .badges{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  .badge-ch{background:var(--card);color:var(--accent);font-size:10px;padding:4px 10px;border-radius:20px;font-weight:700;}
+  .badge-topic{background:var(--card);color:var(--muted);font-size:10px;padding:4px 10px;border-radius:20px;}
+
+  .question-box{background:var(--card);border-radius:16px;padding:20px 22px;margin-bottom:14px;}
+  .question-label{color:#475569;font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+  .question-text{color:var(--text);font-size:15px;line-height:1.65;margin:0;font-weight:500;}
+
+  .options{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+  .option{
+    background:var(--card);border:1.5px solid var(--border);border-radius:12px;
+    padding:13px 16px;text-align:left;cursor:pointer;color:#cbd5e1;font-size:13px;
+    line-height:1.55;display:flex;align-items:flex-start;gap:10px;transition:all .15s;
+  }
+  .option .letter{font-weight:800;flex-shrink:0;font-size:12px;}
+  .option .opt-text{flex:1;}
+  .option .mark{flex-shrink:0;font-size:14px;}
+  .option.selected{background:#1e3a5f;border-color:var(--accent);color:#e0f2fe;}
+  .option.correct{background:var(--green-bg);border-color:var(--green-border);color:var(--green-text);}
+  .option.incorrect{background:var(--red-bg);border-color:var(--red-border);color:var(--red-text);}
+  .option.disabled{cursor:default;}
+  .mark-correct{color:var(--green);}
+  .mark-incorrect{color:var(--red);}
+
+  .explanation{background:#071a30;border:1px solid #1e4a6a;border-radius:12px;padding:15px 17px;margin-bottom:14px;}
+  .explanation-title{color:var(--accent);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+  .explanation-text{color:var(--muted2);font-size:12px;line-height:1.7;margin:0;}
+
+  .nav-row{display:flex;gap:12px;}
+  .nav-prev{
+    flex:1;background:transparent;border:1.5px solid var(--border);border-radius:12px;
+    padding:13px;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);
+  }
+  .nav-prev:disabled{color:var(--border);cursor:not-allowed;}
+  .nav-next{
+    flex:2;background:var(--accent);color:var(--bg);border:none;border-radius:12px;
+    padding:13px;font-size:14px;font-weight:900;cursor:pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HOME SCREEN ============ -->
+<div id="home" class="screen">
+  <div class="wrap">
+    <div class="emoji-row">🚌🚂✈️🚢</div>
+    <p class="eyebrow">LAUTECH · Faculty of Arts &amp; Social Sciences</p>
+    <h1>ECO 210: Transport Economics</h1>
+    <h2 class="sub">CBT Exam Practice — 100 Questions</h2>
+
+    <div class="stats-grid">
+      <div class="stat"><div class="v">100</div><div class="l">Questions</div></div>
+      <div class="stat"><div class="v">8</div><div class="l">Chapters</div></div>
+      <div class="stat"><div class="v">MCQ</div><div class="l">Format</div></div>
+    </div>
+
+    <div>
+      <p class="select-label">Select Chapter</p>
+      <div class="chips" id="chips"></div>
+      <p class="chip-info" id="chipInfo"></p>
+    </div>
+
+    <button class="start-btn" id="startBtn">START EXAM →</button>
+    <p class="footnote">Questions drawn directly from your ECO 210 manual · LAUTECH</p>
+  </div>
+</div>
+
+<!-- ============ QUIZ SCREEN ============ -->
+<div id="quiz" class="screen hidden">
+  <div class="wrap">
+    <div class="topbar">
+      <button class="home-link" id="quizHomeBtn">← Home</button>
+      <div class="qcount"><b id="qIdx">1</b>/<span id="qTotal">100</span></div>
+      <div class="score-display">✓ <span id="qScore">0</span></div>
+    </div>
+
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+    <div class="badges">
+      <span class="badge-ch" id="badgeCh"></span>
+      <span class="badge-topic" id="badgeTopic"></span>
+    </div>
+
+    <div class="question-box">
+      <div class="question-label" id="questionLabel"></div>
+      <p class="question-text" id="questionText"></p>
+    </div>
+
+    <div class="options" id="options"></div>
+
+    <div class="explanation hidden" id="explanationBox">
+      <div class="explanation-title">📘 Manual Reference</div>
+      <p class="explanation-text" id="explanationText"></p>
+    </div>
+
+    <div class="nav-row">
+      <button class="nav-prev" id="prevBtn">← Prev</button>
+      <button class="nav-next" id="nextBtn">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SUMMARY SCREEN ============ -->
+<div id="summary" class="screen hidden">
+  <div class="wrap">
+    <div class="summary-emoji" id="summaryEmoji"></div>
+    <h2 style="font-size:26px;font-weight:900;margin-bottom:6px;">Exam Complete!</h2>
+    <div class="summary-grade" id="summaryGrade"></div>
+
+    <div class="score-card">
+      <div class="score-pct" id="summaryPct"></div>
+      <div class="score-sub" id="summarySub"></div>
+      <div class="bar-track"><div class="bar-fill" id="summaryBar"></div></div>
+    </div>
+
+    <div class="breakdown">
+      <p class="breakdown-title">Chapter Breakdown</p>
+      <div id="breakdownRows"></div>
+    </div>
+
+    <div class="summary-actions">
+      <button class="btn btn-outline-accent" id="homeBtn2">🏠 Home</button>
+      <button class="btn btn-fill-accent" id="retryBtn">🔄 Retry</button>
+      <button class="btn btn-outline-muted" id="reviewBtn">📖 Review</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const ALL_QUESTIONS = [
+  // ── CHAPTER 1: Introduction to Transport Economics ──────────────────────────
+  {
+    id: 1, ch: "Ch.1", topic: "Definition & Scope",
+    q: "According to the manual, Transport Economics is defined as a branch of economics that focuses on the:",
+    opts: ["A. Regulation of vehicle manufacturing standards", "B. Efficient allocation of resources in the transportation sector", "C. Collection of government taxes from transport operators", "D. Financing of road construction projects"],
+    ans: "B",
+    exp: "The manual explicitly defines Transport Economics as 'a branch of economics that focuses on the efficient allocation of resources in the transportation sector.'"
+  },
+  {
+    id: 2, ch: "Ch.1", topic: "Economic Characteristics",
+    q: "The manual identifies which of the following as the MOST IMPORTANT characteristic of transport?",
+    opts: ["A. Transport is a luxury good demanded for pleasure", "B. Transport demand takes place over space and time", "C. Transport is not really demanded in its own right — it is a derived demand", "D. Transport is always provided by the public sector"],
+    ans: "C",
+    exp: "The manual states: 'The most important characteristic of transport is that it is not really demanded in its own right.' People travel to gain benefit at the destination — the demand is derived."
+  },
+  {
+    id: 3, ch: "Ch.1", topic: "Economic Characteristics",
+    q: "Transport demand 'takes place over space and time.' This characteristic distinguishes transport economics from other branches of economics because:",
+    opts: ["A. Transport services can be stored for future use", "B. Transport journeys are made over a particular distance between start and end points and take a particular amount of time", "C. Transport is only relevant to urban economies", "D. Transport services have unlimited capacity"],
+    ans: "B",
+    exp: "The manual notes that transport demand taking place over space and time 'distinguishes transport economics from other branches of economics.' Journeys cover distance and consume time."
+  },
+  {
+    id: 4, ch: "Ch.1", topic: "Economic Characteristics",
+    q: "According to the manual, the fixed component of transport consists of:",
+    opts: ["A. Vehicles and drivers", "B. Fuel and maintenance costs", "C. Infrastructure", "D. Operations and scheduling"],
+    ans: "C",
+    exp: "The manual states: 'Transport is often divided into fixed and mobile component; the fixed component consists of infrastructure and the mobile component consist of vehicles and operations.'"
+  },
+  {
+    id: 5, ch: "Ch.1", topic: "Importance in Development",
+    q: "The manual states that 'transport by itself is not a sufficient condition for development.' What does the lack of transport infrastructure represent?",
+    opts: ["A. A sufficient condition for economic growth", "B. A constraining factor on development", "C. An irrelevant variable in economic planning", "D. A positive indicator of environmental health"],
+    ans: "B",
+    exp: "The manual explicitly states: 'Transport by itself is not sufficient condition for development; however, the lack of transport infrastructure can be seen as a constraining factor on development.'"
+  },
+  {
+    id: 6, ch: "Ch.1", topic: "Roles of Transport",
+    q: "The manual identifies the role of transportation in production as enabling entrepreneurs to:",
+    opts: ["A. Reduce their workforce and automate production entirely", "B. Assemble raw materials and labour inputs more easily, and enable Just-in-Time (JIT) production", "C. Avoid paying taxes by relocating factories", "D. Produce goods without any capital investment"],
+    ans: "B",
+    exp: "The manual states transport 'enables the entrepreneur to assemble more easily the raw material and labour input needed' and 'enables Just in Time (JIT) production techniques,' reducing stock levels and unit costs."
+  },
+  {
+    id: 7, ch: "Ch.1", topic: "Roles of Transport",
+    q: "According to the manual, transportation contributes to employment through:",
+    opts: ["A. Only direct employment in driving and piloting", "B. Both direct employment (e.g., drivers, pilots) and indirect employment (e.g., insurance and financing industries)", "C. Exclusively government jobs in planning departments", "D. Temporary seasonal farm work only"],
+    ans: "B",
+    exp: "The manual states transport job creation 'can either be direct or indirect. Direct employment will be created in the industry itself, such as drivers, logistics managers and pilots. Indirectly, jobs are created in for example the insurance and financing industry.'"
+  },
+  {
+    id: 8, ch: "Ch.1", topic: "Roles of Transport",
+    q: "The concept of 'Transportation vis-à-vis Geographical Specialization' in the manual means that:",
+    opts: ["A. Every region must produce all goods it consumes", "B. Transport development has enabled regions to specialise in producing their most efficient output, with production and consumption occurring in different locations", "C. Geography prevents trade between regions", "D. Specialisation reduces economic productivity"],
+    ans: "B",
+    exp: "The manual explains that transport 'has enabled regions to specialise in producing its most efficient output. Production and consumption of products can take place in two different locations.'"
+  },
+  {
+    id: 9, ch: "Ch.1", topic: "Roles of Transport",
+    q: "Transport has enabled countries to practice comparative advantage in international trade by:",
+    opts: ["A. Forcing all countries to produce the same goods", "B. Enabling nations or regions to specialise in producing whatever they can do best", "C. Preventing imports from competing countries", "D. Standardising wages across all trading nations"],
+    ans: "B",
+    exp: "The manual states: 'International transportation has led the way to more world trade, and it has enabled nations or regions to specialise in producing whatever it can do best (comparative advantage).'"
+  },
+  {
+    id: 10, ch: "Ch.1", topic: "Scope of Transport Economics",
+    q: "According to the manual, transport economics is often linked to land use planning because:",
+    opts: ["A. Transport economists also design buildings", "B. Following why people travel traces changes in the location of facilities", "C. Land use laws control all transport routes", "D. Transport economics is a subset of urban architecture"],
+    ans: "B",
+    exp: "The manual states: 'Transport economics is therefore often linked to other disciplines such as land use planning since, if we follow the examples listed, we can trace some of the changes that have taken place in the location of those facilities.'"
+  },
+  {
+    id: 11, ch: "Ch.1", topic: "Scope of Transport Economics",
+    q: "The uneven distribution of transport demand across a network can cause:",
+    opts: ["A. Perfectly balanced supply", "B. Traffic congestion", "C. Reduced fuel consumption", "D. Lower infrastructure costs"],
+    ans: "B",
+    exp: "The manual states: 'The reality though is that this demand is not spread evenly throughout the network. This uneven demand can cause traffic congestion.'"
+  },
+  {
+    id: 12, ch: "Ch.1", topic: "Relationship with Other Sectors",
+    q: "According to the manual, transport helps the agriculture sector by:",
+    opts: ["A. Replacing farm labour with automated systems", "B. Helping farmers get their goods to markets before they spoil, and delivering fertilizers, machinery, and seeds to farms", "C. Providing subsidies directly to farmers", "D. Determining crop prices in international markets"],
+    ans: "B",
+    exp: "The manual identifies agricultural transport roles: 'Distribution of Produce: Transport helps farmers get their goods to markets before they spoil. Access to Inputs: Fertilizers, machinery, and seeds are delivered to farms via transport systems.'"
+  },
+
+  // ── CHAPTER 2: Demand and Supply in Transportation ───────────────────────────
+  {
+    id: 13, ch: "Ch.2", topic: "Transport Demand",
+    q: "The manual defines transport demand as:",
+    opts: ["A. The total revenue earned by transport companies in a given year", "B. The need and willingness of individuals or businesses to use transportation services to move from one location to another", "C. The number of vehicles registered in a country", "D. Government spending on transport infrastructure"],
+    ans: "B",
+    exp: "The manual's exact definition: 'Transport demand refers to the need and willingness of individuals or businesses to use transportation services to move from one location to another.'"
+  },
+  {
+    id: 14, ch: "Ch.2", topic: "Transport Demand",
+    q: "The manual notes that the COVID-19 outbreak 'significantly reduced transport demand, reshaping commuting and travel patterns worldwide.' This illustrates that transport demand is:",
+    opts: ["A. Completely stable and unaffected by external events", "B. Highly dynamic, influenced by economic conditions, population growth, urbanization, and global events", "C. Only affected by government policy changes", "D. Determined solely by fuel prices"],
+    ans: "B",
+    exp: "The manual states transport demand 'is also highly dynamic, influenced by economic conditions, population growth, urbanization, and even global events such as pandemics,' citing COVID-19 as a real example."
+  },
+  {
+    id: 15, ch: "Ch.2", topic: "Determinants of Demand",
+    q: "Which of the following is listed in the manual as a determinant of transport demand?",
+    opts: ["A. The colour of transport vehicles", "B. The nationality of transport operators", "C. Income levels, population growth, urbanization, and technological advancements", "D. The personal preferences of government ministers"],
+    ans: "C",
+    exp: "The manual lists factors influencing transport demand as 'income levels, population growth, urbanization, and technological advancements' among others."
+  },
+  {
+    id: 16, ch: "Ch.2", topic: "Transport Supply",
+    q: "The manual defines supply in transportation as referring to:",
+    opts: ["A. The number of passengers who travelled last year", "B. The infrastructure, vehicles, and services available to facilitate movement", "C. The total revenue collected from transport fares", "D. The government's transport budget allocation"],
+    ans: "B",
+    exp: "The manual states: 'Supply in transportation refers to the infrastructure, vehicles, and services available to facilitate movement.'"
+  },
+  {
+    id: 17, ch: "Ch.2", topic: "Transport Supply",
+    q: "According to the manual, transport supply is described as 'relatively rigid, especially in the short term' because:",
+    opts: ["A. Transport operators are unwilling to increase capacity under any circumstances", "B. Expanding road networks or adding train lines takes time, funding, and political will", "C. Demand for transport never changes", "D. Government regulations freeze supply permanently"],
+    ans: "B",
+    exp: "The manual explains: 'Transport supply is relatively rigid, especially in the short term. Expanding road networks or adding train lines takes time, funding, and political will.'"
+  },
+  {
+    id: 18, ch: "Ch.2", topic: "Elasticity",
+    q: "The manual defines elasticity of demand for transport services as measuring:",
+    opts: ["A. The physical flexibility of transport vehicles", "B. How much the quantity of transport services demanded changes in response to a change in price or other factors", "C. The government's ability to change transport regulations", "D. The speed at which new roads can be built"],
+    ans: "B",
+    exp: "The manual states: 'Elasticity of demand for transport services measures how much the quantity of transport services demanded changes in response to a change in price or other factors.'"
+  },
+  {
+    id: 19, ch: "Ch.2", topic: "Elasticity — Price",
+    q: "According to the manual, price elasticity of transport demand refers to how sensitive demand is to changes in:",
+    opts: ["A. Population size", "B. The cost of using a specific mode of transport", "C. Government investment levels", "D. The number of transport providers"],
+    ans: "B",
+    exp: "The manual: 'Price Elasticity of Transport Demand: This refers to how sensitive the demand for a specific mode of transportation (like buses, trains, or flights) is to changes in its cost.'"
+  },
+  {
+    id: 20, ch: "Ch.2", topic: "Elasticity — Time",
+    q: "The manual explains that time elasticity of transport demand measures:",
+    opts: ["A. How prices change with the time of day", "B. How changes in travel time influence the number of people choosing a particular transport mode", "C. The length of time required to build new transport infrastructure", "D. Annual growth rates of the transport sector"],
+    ans: "B",
+    exp: "The manual: 'Time elasticity measures how changes in travel time influence the number of people choosing a particular transport mode.'"
+  },
+  {
+    id: 21, ch: "Ch.2", topic: "Elasticity — Inelastic",
+    q: "The manual gives daily commuters as an example of inelastic transport demand because:",
+    opts: ["A. Commuters always have many transport alternatives available", "B. Commuters often have fixed routines and limited alternatives, so they keep using the same mode despite fare increases or delays", "C. Commuter transport is always free", "D. Commuters are insensitive to journey time"],
+    ans: "B",
+    exp: "The manual states: 'Daily commuters often have fixed routines and limited alternatives, so they may keep using the same transport mode despite fare increases or delays.'"
+  },
+  {
+    id: 22, ch: "Ch.2", topic: "Elasticity — Elastic",
+    q: "According to the manual, which type of transport most clearly demonstrates ELASTIC demand?",
+    opts: ["A. Emergency ambulance services", "B. Essential work commuting", "C. Leisure air travel, where if ticket prices rise, many travellers may cancel or switch modes", "D. Freight transport where shipping costs are a minor fraction of total costs"],
+    ans: "C",
+    exp: "The manual gives the example: 'A good example is leisure air travel — if ticket prices rise, many travelers may choose not to fly or switch to other modes of transport.'"
+  },
+  {
+    id: 23, ch: "Ch.2", topic: "Factors Affecting Elasticity",
+    q: "The manual states that 'essential trips, such as commuting to work or school, usually show inelastic demand' because:",
+    opts: ["A. Workers enjoy commuting regardless of cost", "B. Travellers have no choice but to travel", "C. Commuting is always subsidised by employers", "D. Essential trips are always short distances"],
+    ans: "B",
+    exp: "The manual explicitly states essential trips 'usually show inelastic demand since travellers have no choice but to travel.'"
+  },
+  {
+    id: 24, ch: "Ch.2", topic: "Factors Affecting Elasticity",
+    q: "According to the manual, how does the time horizon affect elasticity of transport demand?",
+    opts: ["A. In the long term, demand becomes more inelastic as people adapt to prices", "B. In the short term demand is less elastic; over the long term people might move, change jobs, or buy different vehicles, making demand more elastic", "C. The time horizon has no effect on elasticity", "D. Short-term demand is always more elastic than long-term demand"],
+    ans: "B",
+    exp: "The manual: 'In the short term, people often cannot easily change their travel habits… so demand is less elastic. Over the long term, people might move closer to work, change jobs, or buy different vehicles making demand more elastic.'"
+  },
+  {
+    id: 25, ch: "Ch.2", topic: "Equilibrium",
+    q: "The manual defines equilibrium in a transportation market as the point where:",
+    opts: ["A. The government sets the maximum allowable price", "B. The supply of transportation services matches the demand for them, resulting in a balanced situation", "C. All transport companies earn equal profits", "D. Road accidents are reduced to zero"],
+    ans: "B",
+    exp: "The manual: 'In a transportation market, equilibrium represents the point where the supply of transportation services matches the demand for them, resulting in a balanced situation.'"
+  },
+  {
+    id: 26, ch: "Ch.2", topic: "Equilibrium",
+    q: "The manual states that at equilibrium, the price and quantity of transportation services remain stable because:",
+    opts: ["A. The government fixes prices and quantities by law", "B. There are no incentives for consumers or providers to adjust their behavior", "C. All competitors leave the market", "D. Fuel prices are constant at equilibrium"],
+    ans: "B",
+    exp: "The manual: 'This balance ensures that the price and quantity of transportation services remain stable, with no incentives for consumers or providers to adjust their behavior.'"
+  },
+
+  // ── CHAPTER 3: Transport Costs and Pricing ────────────────────────────────────
+  {
+    id: 27, ch: "Ch.3", topic: "Fixed Costs",
+    q: "According to the manual, fixed costs in transport are those that:",
+    opts: ["A. Change directly with the number of passengers carried", "B. Remain unchanged regardless of how much transport service is provided", "C. Are incurred only during peak travel periods", "D. Are paid only when vehicles are in use"],
+    ans: "B",
+    exp: "The manual: 'Fixed costs are those that remain unchanged regardless of how much transport service is provided. These expenses do not depend on the number of users or the distance traveled and must be incurred even if the system is not actively in use.'"
+  },
+  {
+    id: 28, ch: "Ch.3", topic: "Fixed Costs",
+    q: "Which of the following does the manual specifically list as an example of a fixed cost in transport?",
+    opts: ["A. Fuel costs per kilometre", "B. Driver wages per hour driven", "C. Infrastructure development (roads, railways, airports) and purchase of vehicles (buses, trains)", "D. Toll fees paid per trip"],
+    ans: "C",
+    exp: "The manual lists fixed cost examples as: 'infrastructure development and maintenance such as roads, railways, and airports as well as the purchase of vehicles like buses, trains, or airplanes. Other elements such as administrative salaries, insurance, and licensing fees also fall under this category.'"
+  },
+  {
+    id: 29, ch: "Ch.3", topic: "Variable Costs",
+    q: "The manual states that variable costs in transport are 'directly influenced by the level of service output' and examples include:",
+    opts: ["A. Insurance premiums and licensing fees", "B. Railway track construction", "C. Fuel, routine vehicle maintenance, driver wages based on hours or km driven, and toll/access fees", "D. Airport terminal buildings"],
+    ans: "C",
+    exp: "The manual explicitly lists variable costs as: 'fuel, routine vehicle maintenance, driver wages calculated based on hours worked or kilometers driven, and toll or access fees.'"
+  },
+  {
+    id: 30, ch: "Ch.3", topic: "Short-Run vs Long-Run",
+    q: "According to the manual, the long-run perspective in transport is critical because it allows planners to achieve:",
+    opts: ["A. Diseconomies of scale from expanding networks", "B. Economies of scale where increasing the scale of operations leads to a reduction in average costs due to more efficient utilization of resources", "C. Higher fixed costs per passenger", "D. Greater government control over private operators"],
+    ans: "B",
+    exp: "The manual: 'One key advantage of long-run planning is the potential to achieve economies of scale where increasing the scale of operations leads to a reduction in average costs due to more efficient utilization of resources.'"
+  },
+  {
+    id: 31, ch: "Ch.3", topic: "Marginal Cost Pricing",
+    q: "The manual states that marginal cost pricing in transport 'involves setting the price equal to the cost of serving one additional user.' A key DRAWBACK of this model identified in the manual is that:",
+    opts: ["A. It always overcharges passengers and generates excess profits", "B. It often fails to recover the substantial fixed costs typically associated with transport systems, especially in infrastructure-heavy sectors", "C. It is too complex for operators to calculate", "D. It leads to market monopoly"],
+    ans: "B",
+    exp: "The manual: 'A key drawback of this approach is that it often fails to recover the substantial fixed costs typically associated with transport systems, especially in infrastructure-heavy sectors like public transit.'"
+  },
+  {
+    id: 32, ch: "Ch.3", topic: "Average Cost Pricing",
+    q: "According to the manual, average cost pricing determines the price by:",
+    opts: ["A. Setting price equal to the cost of one additional user", "B. Dividing the total cost of service provision by the total number of users or output units", "C. Using the highest price consumers are willing to pay", "D. Matching competitors' prices in the market"],
+    ans: "B",
+    exp: "The manual: 'Average cost pricing, on the other hand, determines the price by dividing the total cost of service provision by the total number of users or output units.'"
+  },
+  {
+    id: 33, ch: "Ch.3", topic: "Average Cost Pricing",
+    q: "The manual identifies a DISADVANTAGE of average cost pricing as:",
+    opts: ["A. It always undercharges users", "B. It can lead to inefficiencies, especially if the price charged exceeds the marginal cost, potentially discouraging use even among those whose additional demand would impose little extra cost on the system", "C. It requires real-time data on every journey", "D. It eliminates the need for government subsidies"],
+    ans: "B",
+    exp: "The manual notes average cost pricing 'can lead to inefficiencies, especially if the price charged exceeds the marginal cost. When prices are set too high relative to the actual incremental cost, they may discourage use, even among those whose additional demand would impose little to no extra cost on the system.'"
+  },
+  {
+    id: 34, ch: "Ch.3", topic: "Congestion Pricing",
+    q: "The manual states that congestion pricing and toll systems are important tools used in modern transport management to:",
+    opts: ["A. Provide free travel for all urban residents", "B. Regulate demand, reduce negative externalities such as traffic congestion and pollution, and generate revenue for infrastructure development", "C. Eliminate all private vehicle ownership", "D. Standardise fares across all transport modes"],
+    ans: "B",
+    exp: "The manual: 'Congestion pricing and toll systems are important tools used in modern transport management to regulate demand, reduce negative externalities such as traffic congestion and pollution, and generate revenue for infrastructure development and maintenance.'"
+  },
+  {
+    id: 35, ch: "Ch.3", topic: "Congestion Pricing",
+    q: "According to the manual, congestion pricing works by:",
+    opts: ["A. Providing cash rewards to motorists who avoid rush hour", "B. Imposing higher charges on road users during peak travel times or in highly congested urban areas", "C. Banning all commercial vehicles from city roads", "D. Reducing public transport fares during peak periods"],
+    ans: "B",
+    exp: "The manual: 'Congestion pricing works by imposing higher charges on road users during peak travel times or in highly congested urban areas.'"
+  },
+
+  // ── CHAPTER 4: Market Structures in Transport ─────────────────────────────────
+  {
+    id: 36, ch: "Ch.4", topic: "Perfect Competition",
+    q: "According to the manual, perfect competition in transport is RARE due to:",
+    opts: ["A. Government prohibition of competitive markets", "B. The high fixed costs and infrastructure requirements, which make it difficult for many small operators to compete sustainably", "C. Consumer preference for monopoly providers", "D. The absence of demand for transport services"],
+    ans: "B",
+    exp: "The manual: 'Perfect competition in transport is rare due to the high fixed costs and infrastructure requirements, which make it difficult for many small operators to compete sustainably.'"
+  },
+  {
+    id: 37, ch: "Ch.4", topic: "Monopoly in Transport",
+    q: "The manual states that monopolies in transport are common in sectors such as railways or urban transit systems because:",
+    opts: ["A. Governments prefer monopolies to reduce complexity", "B. A single entity operates the entire network, and coordinated operations prevent multiple competitors from operating efficiently", "C. Monopolies always produce higher quality transport", "D. Competition is legally prohibited in all transport sectors"],
+    ans: "B",
+    exp: "The manual: 'Monopolies are common in sectors such as railways or urban transit systems, where a single entity operates the entire network' and the need for coordinated operations prevents multiple competitors from operating efficiently."
+  },
+  {
+    id: 38, ch: "Ch.4", topic: "Monopoly in Transport",
+    q: "The manual warns that transport monopolies, if not properly regulated, may lead to:",
+    opts: ["A. Lower prices and better service for all users", "B. Inefficiencies, reduced service quality, and higher prices", "C. Elimination of all transport externalities", "D. Perfect resource allocation"],
+    ans: "B",
+    exp: "The manual: 'While monopolies can take advantage of economies of scale and provide uniform services, they may also lead to inefficiencies, reduced service quality, and higher prices if not properly regulated.'"
+  },
+  {
+    id: 39, ch: "Ch.4", topic: "Oligopoly in Transport",
+    q: "According to the manual, an oligopoly arises when:",
+    opts: ["A. A single firm controls the entire market", "B. A small number of large firms control the majority of the transport market", "C. Hundreds of small firms compete equally", "D. The government operates all transport services"],
+    ans: "B",
+    exp: "The manual: 'An oligopoly arises when a small number of large firms control the majority of the transport market. This structure is prevalent in industries such as airlines or shipping.'"
+  },
+  {
+    id: 40, ch: "Ch.4", topic: "Oligopoly in Transport",
+    q: "The manual identifies a risk specific to oligopolistic transport markets as:",
+    opts: ["A. Excessive competition leading to price wars that harm operators", "B. Collusion or price-fixing among the dominant players, which can harm consumers", "C. Too many new entrants reducing market stability", "D. Governments over-investing in the sector"],
+    ans: "B",
+    exp: "The manual: 'In an oligopolistic market, companies may compete on factors like pricing, service quality, or scheduling, but there is also a risk of collusion or price-fixing, which can harm consumers.'"
+  },
+  {
+    id: 41, ch: "Ch.4", topic: "Public vs Private",
+    q: "The manual states that public transport services are 'typically owned, funded, or heavily regulated by government authorities.' Their PRIMARY GOAL is to:",
+    opts: ["A. Maximise profits for government shareholders", "B. Provide accessible, affordable, and equitable mobility options for the general public", "C. Compete directly with private operators on profitable routes", "D. Serve only high-income urban neighbourhoods"],
+    ans: "B",
+    exp: "The manual: 'Public transport services are typically owned, funded, or heavily regulated by government authorities. Their primary goal is to provide accessible, affordable, and equitable mobility options for the general public.'"
+  },
+  {
+    id: 42, ch: "Ch.4", topic: "Public vs Private",
+    q: "According to the manual, private transport operators such as taxis, ride-hailing platforms, and private bus companies may neglect:",
+    opts: ["A. High-demand profitable urban routes", "B. Unprofitable routes or low-demand time periods, potentially excluding certain population groups from adequate service", "C. Environmental sustainability requirements", "D. Safety regulations and licensing requirements"],
+    ans: "B",
+    exp: "The manual: 'Because profitability is the primary concern, private operators may neglect unprofitable routes or low-demand time periods, potentially excluding certain population groups or regions from adequate service.'"
+  },
+
+  // ── CHAPTER 5: Modes of Transport ─────────────────────────────────────────────
+  {
+    id: 43, ch: "Ch.5", topic: "Road Transport",
+    q: "The manual describes road transport as 'the most widely used mode' because it:",
+    opts: ["A. Has the lowest environmental impact of all transport modes", "B. Is the cheapest to build and maintain at all times", "C. Provides flexibility and connects cities, towns, and rural areas, serving both passenger and freight movement, especially for short and medium distances", "D. Requires no government investment or regulation"],
+    ans: "C",
+    exp: "The manual: 'Road Transport: This is the most widely used mode, involving vehicles such as cars, trucks, buses, and motorcycles. It provides flexibility and connects cities, towns, and rural areas. Road transport is vital for both passenger and freight movement, especially for short and medium distances.'"
+  },
+  {
+    id: 44, ch: "Ch.5", topic: "Rail Transport",
+    q: "According to the manual, rail transport is 'especially cost-effective for transporting large volumes' of what type of goods?",
+    opts: ["A. Perishable goods like fresh fruits and vegetables", "B. High-value electronics and luxury items", "C. Coal, minerals, and agricultural products over long distances", "D. Live animals and fragile artworks"],
+    ans: "C",
+    exp: "The manual: 'Rail is commonly used for transporting bulk goods over long distances… It is especially cost-effective for transporting large volumes like coal, minerals, and agricultural products.'"
+  },
+  {
+    id: 45, ch: "Ch.5", topic: "Rail Transport",
+    q: "The manual notes that rail transport, while more energy-efficient and eco-friendly than road transport, requires:",
+    opts: ["A. No infrastructure investment as tracks already exist everywhere", "B. Substantial infrastructure investment", "C. Only minimal government oversight", "D. Lower skilled labour than road transport"],
+    ans: "B",
+    exp: "The manual: 'Although it is more energy-efficient and eco-friendly than road transport, it requires substantial infrastructure investment.'"
+  },
+  {
+    id: 46, ch: "Ch.5", topic: "Air Transport",
+    q: "The manual describes air transport as primarily used for:",
+    opts: ["A. Transporting bulk agricultural commodities cheaply", "B. Long-distance passenger flights and transporting high-value or time-sensitive cargo", "C. Short-distance urban commuting", "D. Moving very large and heavy freight like machinery"],
+    ans: "B",
+    exp: "The manual: 'Air Transport: Air travel is used for long-distance passenger flights and transporting high-value or time-sensitive cargo. While it offers speed, it is expensive and has a significant environmental impact due to high energy consumption and emissions.'"
+  },
+  {
+    id: 47, ch: "Ch.5", topic: "Water Transport",
+    q: "According to the manual, water transport 'is highly efficient for transporting large quantities of goods over long distances' but its main disadvantage is:",
+    opts: ["A. Very high operating costs that make it uncompetitive", "B. It is slower than other transport modes", "C. It is restricted to domestic trade only", "D. It generates excessive greenhouse gas emissions"],
+    ans: "B",
+    exp: "The manual: 'This mode includes shipping, ferries, and inland waterway transport. It is highly efficient for transporting large quantities of goods over long distances, particularly for international trade. However, water transport is slower than other modes.'"
+  },
+  {
+    id: 48, ch: "Ch.5", topic: "Rail — Investment",
+    q: "Rolling stock investment in rail transport, as described in the manual, involves:",
+    opts: ["A. Investing in station waiting areas and platforms", "B. The purchase or upgrade of trains, locomotives, and other vehicles that operate on the rail network", "C. Funding research into new fuels for aircraft", "D. Building new road networks adjacent to rail lines"],
+    ans: "B",
+    exp: "The manual: 'Investment in rolling stock involves the purchase or upgrade of trains, locomotives, and other vehicles that operate on the rail network.'"
+  },
+  {
+    id: 49, ch: "Ch.5", topic: "Pipeline Transport",
+    q: "A key advantage of pipeline transport over trucks or rail for energy commodities, as stated in the manual, is that pipelines:",
+    opts: ["A. Are cheaper to construct than any other transport infrastructure", "B. Are not affected by delays, weather, or other logistical issues, making them highly reliable for continuous large-volume transport", "C. Can be quickly re-routed to serve new destinations", "D. Require no monitoring or safety systems once built"],
+    ans: "B",
+    exp: "The manual: 'Unlike other transportation methods, such as trucks or rail, pipelines are not affected by delays, weather, or other logistical issues, making them highly reliable.'"
+  },
+  {
+    id: 50, ch: "Ch.5", topic: "Pipeline Transport",
+    q: "The manual states that although building pipelines requires significant initial investment, their long-term advantage is:",
+    opts: ["A. They can be easily moved to follow shifting demand patterns", "B. Their long-term operating and maintenance costs are low compared to other transportation methods", "C. They can transport passengers as well as energy products", "D. They generate higher tax revenue for governments than road transport"],
+    ans: "B",
+    exp: "The manual: 'Although building pipelines requires a significant initial investment, their long-term operating and maintenance costs are low compared to other methods of transportation.'"
+  },
+
+  // ── CHAPTER 6: Transport Externalities and Environmental Issues ───────────────
+  {
+    id: 51, ch: "Ch.6", topic: "Negative Externalities",
+    q: "The manual defines negative externalities from transport as:",
+    opts: ["A. Costs borne only by transport companies", "B. Unintended and harmful side effects that affect people or the environment not directly involved in transportation activities", "C. Losses made by unprofitable transport routes", "D. Government expenditure on traffic management"],
+    ans: "B",
+    exp: "The manual: 'Transport systems can generate a range of negative externalities, which are unintended and harmful side effects that affect people or the environment who are not directly involved in the transportation activities.'"
+  },
+  {
+    id: 52, ch: "Ch.6", topic: "Pollution",
+    q: "According to the manual, road transport is a major source of air pollution, emitting harmful substances including:",
+    opts: ["A. Oxygen (O2), helium (He), and neon (Ne)", "B. Carbon dioxide (CO2), nitrogen oxides (NOx), and particulate matter (PM)", "C. Only water vapour and carbon dioxide", "D. Nitrogen (N2) and argon (Ar) exclusively"],
+    ans: "B",
+    exp: "The manual: 'Pollution: Transportation, particularly road transport, is a major source of air pollution, emitting harmful substances such as carbon dioxide (CO2), nitrogen oxides (NOx), and particulate matter (PM).'"
+  },
+  {
+    id: 53, ch: "Ch.6", topic: "Congestion as Externality",
+    q: "The manual explains that traffic congestion as a negative externality 'can also reduce the overall productivity of an economy' by:",
+    opts: ["A. Increasing government revenue through fines", "B. Slowing down the movement of goods and people", "C. Forcing workers to change their career paths", "D. Reducing the number of vehicles manufactured"],
+    ans: "B",
+    exp: "The manual: 'Congestion can also reduce the overall productivity of an economy by slowing down the movement of goods and people. The inefficient use of road space exacerbates the environmental and social costs.'"
+  },
+  {
+    id: 54, ch: "Ch.6", topic: "Positive Externalities",
+    q: "The manual identifies positive externalities of transport as including:",
+    opts: ["A. Noise pollution and traffic accidents", "B. Accessibility and economic growth, where improved transport enables people and businesses to access broader markets", "C. Higher land prices for all residents without exception", "D. Increased government taxation capacity"],
+    ans: "B",
+    exp: "Chapter Six covers positive externalities including accessibility and economic growth. The manual notes positive spillovers where improved connectivity enables broader market access and economic development."
+  },
+  {
+    id: 55, ch: "Ch.6", topic: "Sustainable Transport",
+    q: "The manual identifies which of the following as sustainable transport solutions?",
+    opts: ["A. Increasing the number of private cars on roads", "B. Green transportation, carbon pricing, and alternative fuels", "C. Expanding coal-powered freight networks", "D. Removing all public transport subsidies"],
+    ans: "B",
+    exp: "The manual discusses 'Sustainability in Transport: Green transportation, carbon pricing, and alternative fuels' as key sustainable transport solutions."
+  },
+  {
+    id: 56, ch: "Ch.6", topic: "Government Interventions",
+    q: "The manual states that governments can address transport's environmental issues through policies including:",
+    opts: ["A. Removing all vehicle taxes to reduce transport costs", "B. Emission standards (limits on pollutants vehicles can emit) and incentives for cleaner technologies such as electric vehicles", "C. Building more roads to reduce congestion permanently", "D. Deregulating all transport markets"],
+    ans: "B",
+    exp: "The manual: 'Emissions standards: Governments can set limits on the amount of pollutants that vehicles and other transport modes can emit… Incentives for cleaner technologies: Subsidies, grants, and tax breaks for adopting low-emission vehicles (e.g., electric cars).'"
+  },
+
+  // ── CHAPTER 7: Transport Policy and Regulation ────────────────────────────────
+  {
+    id: 57, ch: "Ch.7", topic: "Role of Government",
+    q: "The manual states that governments play a vital role in transport markets to ensure:",
+    opts: ["A. Maximum profits for private transport companies", "B. Efficiency, sustainability, accessibility, and safety for all users", "C. That only wealthy citizens have access to transport", "D. Complete elimination of all transport competition"],
+    ans: "B",
+    exp: "The manual: 'Governments play a vital role in shaping and regulating transport markets to ensure efficiency, sustainability, accessibility, and safety for all users.'"
+  },
+  {
+    id: 58, ch: "Ch.7", topic: "Regulation of Market Entry",
+    q: "According to the manual, governments regulate market entry in transport to:",
+    opts: ["A. Give preferential treatment to state-owned companies", "B. Maintain fair competition and prevent monopolies or oligopolies from emerging, ensuring consumers benefit from competitive prices and quality service", "C. Restrict all new transport operators permanently", "D. Guarantee minimum profits for existing operators"],
+    ans: "B",
+    exp: "The manual: 'Governments regulate the entry of new firms into transport markets to maintain fair competition and prevent monopolies or oligopolies from emerging. This regulation ensures that consumers benefit from competitive prices, innovation, and high-quality service.'"
+  },
+  {
+    id: 59, ch: "Ch.7", topic: "PPPs — Types",
+    q: "Under the Design-Build-Finance-Operate (DBFO) model described in the manual, the private partner is responsible for:",
+    opts: ["A. Only designing the infrastructure while government builds it", "B. Designing, building, financing, and operating the infrastructure, after which government may take over", "C. Providing maintenance only while government designs and builds", "D. Funding the government's transport department budget"],
+    ans: "B",
+    exp: "The manual: 'Design-Build-Finance-Operate (DBFO): Under this model, the private partner is responsible for designing, building, financing, and operating the infrastructure. After a specified operational period, the government may take over the infrastructure or continue a partnership.'"
+  },
+  {
+    id: 60, ch: "Ch.7", topic: "PPPs — Benefits",
+    q: "The manual identifies 'Access to Private Capital' as a benefit of PPPs in transport because:",
+    opts: ["A. Private companies always build cheaper infrastructure than governments", "B. Transport infrastructure projects often require substantial capital; private partners allow governments to secure funding without relying solely on public funds", "C. Private capital eliminates the need for any government oversight", "D. PPPs always result in lower fares for passengers"],
+    ans: "B",
+    exp: "The manual: 'Transport infrastructure projects, especially large-scale ones like highways, railways, and airports, often require substantial capital. By engaging private partners, governments can secure the necessary funding without needing to rely solely on public funds.'"
+  },
+  {
+    id: 61, ch: "Ch.7", topic: "Deregulation",
+    q: "The manual discusses deregulation in transport as involving the effects of privatization in transport markets. According to the manual, what is a potential RISK of deregulation?",
+    opts: ["A. Too much competition lowering fares excessively", "B. Neglect of unprofitable but socially necessary routes and services by profit-driven operators", "C. Government earning insufficient taxes", "D. Overinvestment in rural transport infrastructure"],
+    ans: "B",
+    exp: "The manual warns that when profit-driven operators enter deregulated markets, they may abandon socially necessary but commercially unviable routes, reducing accessibility for vulnerable populations."
+  },
+  {
+    id: 62, ch: "Ch.7", topic: "Safety Regulation",
+    q: "The manual notes that one of government's most critical roles in transport is setting safety standards. These standards protect:",
+    opts: ["A. Only government officials who use official transport", "B. Passengers, operators, and the public from accidents and ensure service reliability", "C. Transport company shareholders from financial losses", "D. Foreign competitors from entering the local market"],
+    ans: "B",
+    exp: "The manual: 'These regulations protect passengers, operators, and the public from accidents and ensure service reliability.'"
+  },
+
+  // ── CHAPTER 8: International Transport and Trade ──────────────────────────────
+  {
+    id: 63, ch: "Ch.8", topic: "International Transport",
+    q: "According to the manual, international transport is described as 'essential for global trade' because it:",
+    opts: ["A. Replaces the need for trade agreements between countries", "B. Allows goods to move across borders efficiently, supporting global supply chains and enabling products to reach consumers worldwide", "C. Eliminates customs duties and import taxes", "D. Standardises all global product prices"],
+    ans: "B",
+    exp: "The manual: 'International transport is essential for global trade, allowing goods to move across borders efficiently. As trade has become more global, logistics and supply chains have adapted to handle these complexities, ensuring products reach consumers worldwide.'"
+  },
+  {
+    id: 64, ch: "Ch.8", topic: "Global Logistics",
+    q: "The manual defines global logistics as:",
+    opts: ["A. A government agency overseeing international trade", "B. Managing the movement of goods and services across international borders, from raw materials to finished products, including transportation, warehousing, inventory management, and distribution", "C. The study of how maps and GPS systems work", "D. Setting international currency exchange rates for trade"],
+    ans: "B",
+    exp: "The manual: 'Global logistics involves managing the movement of goods and services across international borders, from raw materials to finished products. It includes all the processes necessary to transport goods in a timely and cost-efficient manner, such as transportation, warehousing, inventory management, and distribution.'"
+  },
+  {
+    id: 65, ch: "Ch.8", topic: "Supply Chains",
+    q: "The manual states that Just-in-Time (JIT) inventory management 'reduces storage costs by delivering materials just in time for production.' However, this system's key vulnerability is:",
+    opts: ["A. It always leads to overproduction", "B. It can be vulnerable to disruptions in transport or supply chains", "C. It requires excessive warehouse space", "D. It makes accurate demand forecasting impossible"],
+    ans: "B",
+    exp: "The manual: 'Just-in-Time (JIT) Production: JIT inventory management reduces storage costs by delivering materials just in time for production. However, this system can be vulnerable to disruptions.'"
+  },
+  {
+    id: 66, ch: "Ch.8", topic: "Supply Chains",
+    q: "The manual identifies outsourcing and offshoring in global supply chains as a strategy where companies:",
+    opts: ["A. Move all production to their home country", "B. Source materials and products from countries with lower production costs, which reduces expenses but adds complexity to supply chain management", "C. Eliminate all international suppliers", "D. Fix the price of goods across all markets"],
+    ans: "B",
+    exp: "The manual: 'Outsourcing and Offshoring: Companies often source materials and products from countries with lower production costs, which can reduce expenses but adds complexity to supply chain management.'"
+  },
+  {
+    id: 67, ch: "Ch.8", topic: "Economic Integration",
+    q: "The manual defines economic integration as:",
+    opts: ["A. A single country controlling all international trade routes", "B. The process of reducing trade barriers and fostering closer economic ties between countries or regions, encouraging the free movement of goods, services, and resources", "C. The merging of all national currencies into one global currency", "D. Standardisation of all transport vehicle designs worldwide"],
+    ans: "B",
+    exp: "The manual: 'Economic integration involves the process of reducing trade barriers and fostering closer economic ties between countries or regions. This encourages the free movement of goods, services, and resources, promoting mutual economic growth.'"
+  },
+  {
+    id: 68, ch: "Ch.8", topic: "Economic Integration",
+    q: "The manual states that transport networks are central to economic integration because they:",
+    opts: ["A. Increase tariffs on imported goods to protect local industries", "B. Facilitate the movement of goods and people across borders, contributing to the efficiency of trade and investment flows, and lower logistical costs", "C. Replace diplomatic negotiations between countries", "D. Standardise all wages across integrated economies"],
+    ans: "B",
+    exp: "The manual: 'Transport networks are central to this process, as they facilitate the movement of goods and people across borders, contributing to the efficiency of trade and investment flows. By improving connectivity and reducing logistical costs, effective transport infrastructure is key to the success of economic integration.'"
+  },
+  {
+    id: 69, ch: "Ch.8", topic: "Role of Ports & Airports",
+    q: "The manual identifies ports and airports as critical nodes in international trade. Their role as 'interchange points' means they serve as:",
+    opts: ["A. Locations where goods are manufactured for export", "B. Places where different transport modes connect and goods are transferred, processed, and forwarded to their final destinations", "C. Exclusive military logistics hubs", "D. Government offices for setting trade policy"],
+    ans: "B",
+    exp: "The manual discusses ports and airports as multimodal interchange hubs where sea/air transport connects with land transport, enabling global supply chains."
+  },
+  {
+    id: 70, ch: "Ch.8", topic: "Transport Corridors",
+    q: "According to the manual, trade facilitation and transport corridors are designed to:",
+    opts: ["A. Restrict trade to specific countries only", "B. Create efficient transport routes linking major economic centres, reducing costs and delays to facilitate regional and international trade", "C. Eliminate the role of private transport companies in international trade", "D. Increase border crossing delays to protect local industries"],
+    ans: "B",
+    exp: "The manual discusses trade facilitation involving transport corridors to integrate infrastructure and operations along key trade routes, reducing costs and barriers to movement."
+  },
+
+  // ── APPLIED & ANALYTICAL QUESTIONS ────────────────────────────────────────────
+  {
+    id: 71, ch: "Applied", topic: "Derived Demand",
+    q: "A student at LAUTECH travels from Ogbomoso to Ibadan every Monday for a part-time job. According to the concept of derived demand in the manual, the student's demand for transport is:",
+    opts: ["A. Autonomous — they travel purely for the enjoyment of the journey", "B. Derived — the transport demand arises from the need to access the job in Ibadan, not for travel itself", "C. Perfectly elastic regardless of fare changes", "D. A luxury demand because the student earns extra income"],
+    ans: "B",
+    exp: "The manual explains transport demand 'exists not for its own sake but because people need to move to accomplish other objectives, such as working, studying, or conducting business.' The student's transport demand is derived from the need to reach the workplace."
+  },
+  {
+    id: 72, ch: "Applied", topic: "Fixed vs Variable Costs",
+    q: "A bus company pays ₦5 million annually for vehicle insurance and ₦800 per litre of diesel consumed. Using the manual's cost classification, which statement is CORRECT?",
+    opts: ["A. Both insurance and diesel are fixed costs", "B. Both insurance and diesel are variable costs", "C. Insurance is a fixed cost; diesel is a variable cost", "D. Insurance is a variable cost; diesel is a fixed cost"],
+    ans: "C",
+    exp: "The manual classifies insurance under fixed costs ('administrative salaries, insurance, and licensing fees also fall under this category') and fuel as variable costs ('Expenses in this category include fuel, routine vehicle maintenance, driver wages…')."
+  },
+  {
+    id: 73, ch: "Applied", topic: "Elasticity Calculation",
+    q: "Bus fares on a route increase by 20%. As a result, daily ridership falls from 1,000 to 800 passengers. Based on the manual's explanation of price elasticity, what is the price elasticity coefficient and what does it indicate?",
+    opts: ["A. PED = 0.5 — inelastic demand (demand relatively unresponsive to price)", "B. PED = 1.0 — unitary elastic demand (the % fall in quantity equals the % rise in price)", "C. PED = 2.0 — elastic demand (quantity falls proportionally more than price rise)", "D. PED = 1.5 — elastic demand"],
+    ans: "B",
+    exp: "% change in quantity = (800−1000)/1000 × 100 = −20%. % change in price = +20%. PED = 20%/20% = 1.0, which is unitary elasticity — the percentage change in quantity demanded exactly matches the percentage change in price."
+  },
+  {
+    id: 74, ch: "Applied", topic: "Market Structures",
+    q: "The Nigerian Railway Corporation (NRC) is the sole operator of passenger rail services on the Lagos–Kano corridor. According to the market structures discussed in the manual, this best represents:",
+    opts: ["A. Perfect competition, because rail competes with road and air", "B. A monopoly, where a single provider dominates due to control of critical infrastructure", "C. An oligopoly, because there are a few rail competitors on the corridor", "D. Monopolistic competition, with differentiated rail services"],
+    ans: "B",
+    exp: "The manual: 'A monopoly exists when a single provider dominates the transport market, often due to the control of critical infrastructure.' Rail networks requiring a single coordinated system fit this description exactly."
+  },
+  {
+    id: 75, ch: "Applied", topic: "Congestion Externality",
+    q: "The private cost of driving into Lagos Island during rush hour is ₦500 in fuel and time. However, every additional car entering the road network during peak hour imposes ₦300 of costs on other road users through increased congestion. According to the manual's treatment of externalities, the socially optimal toll (Pigouvian tax) to correct this externality would be:",
+    opts: ["A. ₦500 — equal to the private cost", "B. ₦800 — equal to total social cost", "C. ₦300 — equal to the marginal external cost imposed on others", "D. ₦0 — because congestion is a natural outcome of demand"],
+    ans: "C",
+    exp: "The manual discusses government intervention through charges equal to the marginal external cost to internalise externalities. The correct Pigouvian tax equals the externality (₦300), not the full social cost, bringing private decisions in line with social optimum."
+  },
+  {
+    id: 76, ch: "Applied", topic: "PPP Models",
+    q: "The Nigerian government awards a contract to a private company to build, finance, and operate the Abuja–Kaduna highway for 30 years, after which the road reverts to government ownership. According to the PPP models in the manual, this arrangement is a:",
+    opts: ["A. Operation and Maintenance (O&M) contract", "B. Build-Operate-Transfer (BOT) arrangement", "C. Design-Build-Finance-Operate (DBFO) with permanent private ownership", "D. Management contract only"],
+    ans: "B",
+    exp: "The manual describes BOT (Build-Operate-Transfer) as: 'typically used in projects where the private sector is expected to generate revenue directly from the use of the infrastructure, such as toll roads or privately operated rail lines' — with transfer back to government at concession end."
+  },
+  {
+    id: 77, ch: "Applied", topic: "Mode Selection",
+    q: "A manufacturing company in Warri needs to transport crude oil continuously and cost-effectively to a refinery 400 km away. Based on the modes of transport covered in the manual, the MOST economically appropriate mode is:",
+    opts: ["A. Road transport using tanker trucks for maximum flexibility", "B. Air transport for maximum speed", "C. Pipeline transport for continuous, weather-independent, low operating cost delivery", "D. Rail transport using tank wagons"],
+    ans: "C",
+    exp: "The manual on pipeline transport: 'Once established, they allow for continuous, large-volume transportation with minimal operating costs. Unlike other transportation methods, such as trucks or rail, pipelines are not affected by delays, weather, or other logistical issues, making them highly reliable.'"
+  },
+  {
+    id: 78, ch: "Applied", topic: "Supply Rigidity",
+    q: "During the 2023 Sallah celebrations, demand for intercity bus transport in Nigeria tripled overnight. Operators could not add enough buses to meet demand. According to the manual's treatment of transport supply, this illustrates:",
+    opts: ["A. A perfectly elastic supply responding instantly to demand", "B. The relative rigidity of transport supply, especially in the short term", "C. Evidence that transport demand is always inelastic", "D. Equilibrium being achieved perfectly in the transport market"],
+    ans: "B",
+    exp: "The manual: 'Transport supply is relatively rigid, especially in the short term. Expanding road networks or adding train lines takes time, funding, and political will.' The same applies to vehicle fleet expansion in the very short run."
+  },
+  {
+    id: 79, ch: "Applied", topic: "Tourism and Transport",
+    q: "The manual specifically states that the airline industry has 'contributed to the growth in the tourism industry, due to airline being fast, safe and relatively cheap.' This relationship illustrates transport as a:",
+    opts: ["A. Substitute for all other forms of economic activity", "B. Enabler of derived demand for tourism, where transport demand is derived from the desire to access tourist destinations", "C. Purely luxury service with no economic significance", "D. Government monopoly with no private sector participation"],
+    ans: "B",
+    exp: "The manual's section on Transport as Derived Demand and its role in tourism shows that people fly because they want to access tourist destinations — transport demand is derived from this underlying desire, and the airline industry has facilitated massive tourism sector growth."
+  },
+  {
+    id: 80, ch: "Applied", topic: "JIT and Transport",
+    q: "A car manufacturer in Nigeria operates a Just-in-Time (JIT) production system. According to the manual, this means transport must:",
+    opts: ["A. Deliver large inventories months in advance to warehouses", "B. Deliver components precisely when needed for production, reducing stock levels and unit costs — but creating vulnerability to transport disruptions", "C. Use only road transport regardless of cost", "D. Operate independently of any production schedule"],
+    ans: "B",
+    exp: "The manual: 'An efficient transport system enables Just in Time (JIT) production techniques. Components are delivered when needed reducing a firm's stock levels hence unit costs.' The manual also notes JIT systems 'can be vulnerable to disruptions.'"
+  },
+  {
+    id: 81, ch: "Applied", topic: "Elasticity Factors",
+    q: "A commuter switches from private car to bus after fuel prices rise sharply. The manual's factor on 'Cost of Alternative Modes' predicts that when the cost of driving rises:",
+    opts: ["A. Demand for all transport modes falls equally", "B. More people shift to public transport, increasing its demand", "C. Demand for public transport also falls proportionally", "D. Commuters stop travelling entirely"],
+    ans: "B",
+    exp: "The manual: 'Cost of Alternative Modes: The relative price of other transport options influences demand. If the cost of driving rises (due to fuel prices), more people might turn to public transport, increasing its demand.'"
+  },
+  {
+    id: 82, ch: "Applied", topic: "Geographical Specialisation",
+    q: "China manufactures electronics sold across Africa, while Nigeria exports crude oil to China. The manual's concept that explains why this trade pattern is economically efficient is:",
+    opts: ["A. Absolute advantage only — each country does what it does cheapest", "B. Transportation vis-à-vis Geographical Specialisation, where transport enables regions to specialise in their most efficient output and trade internationally", "C. Perfect competition in international markets", "D. Monopolistic control of global supply chains"],
+    ans: "B",
+    exp: "The manual: 'The development of transportation system has enabled regions to specialise in producing its most efficient output. Production and consumption of products can take place in two different locations.' This is the foundation of international comparative advantage enabled by transport."
+  },
+  {
+    id: 83, ch: "Applied", topic: "Average Cost Pricing",
+    q: "A toll bridge charges all vehicles ₦2,000 per crossing regardless of time of day or congestion level. Using the manual's pricing model framework, this most closely resembles:",
+    opts: ["A. Marginal cost pricing, because the price reflects the cost of one additional user", "B. Average cost pricing, which charges a uniform fee covering total costs divided by users, regardless of variations in demand or usage impact", "C. Congestion pricing, which adjusts rates by peak demand", "D. Subsidised pricing, where government covers some costs"],
+    ans: "B",
+    exp: "The manual gives exactly this example: 'An example of this is a toll bridge that charges a uniform fee to all vehicles, regardless of the time of day or level of congestion. While it may cover expenses effectively, it does not account for variations in demand or usage impact.'"
+  },
+  {
+    id: 84, ch: "Applied", topic: "Negative Externalities",
+    q: "Residents near the Apapa port in Lagos suffer from truck-related air pollution, noise, and road damage from heavy freight vehicles. These effects are examples of transport's negative externalities because:",
+    opts: ["A. The port itself pays full compensation to all affected residents", "B. Third parties (residents) bear costs resulting from transport activities that are not reflected in the price paid by freight users", "C. The government has already solved these problems through regulation", "D. Residents chose to live near the port and accepted these costs voluntarily"],
+    ans: "B",
+    exp: "The manual defines negative externalities as 'unintended and harmful side effects that affect people or the environment who are not directly involved in the transportation activities.' Residents near ports bear these costs though they are not parties to the freight transactions."
+  },
+  {
+    id: 85, ch: "Applied", topic: "Urban-Rural Transport",
+    q: "According to the manual, rural areas in developing countries often suffer from 'inadequate transport services altogether.' This illustrates:",
+    opts: ["A. The equilibrium position in rural transport markets", "B. The persistent mismatch between demand and supply in transport markets, with supply failing to reach certain geographic areas", "C. Evidence that rural populations do not need transport", "D. The success of market-driven transport provision in all areas"],
+    ans: "B",
+    exp: "The manual: 'Rural areas may suffer from inadequate transport services altogether. These disparities highlight the need for careful, data-driven planning and equitable distribution of resources.' This reflects the demand-supply mismatch in transport markets."
+  },
+
+  // ── FINAL 15: HIGHER ORDER & POLICY ───────────────────────────────────────────
+  {
+    id: 86, ch: "Policy", topic: "Market Failure",
+    q: "The manual justifies government intervention in transport markets primarily on the basis of market failures. Which of the following is NOT identified in the manual as a reason for market failure requiring government intervention?",
+    opts: ["A. Natural monopolies due to high fixed costs", "B. Negative externalities such as pollution and congestion", "C. The need to ensure equity and access for all social groups", "D. Transport firms being too innovative and efficient"],
+    ans: "D",
+    exp: "The manual's discussion of government roles focuses on correcting market failures: natural monopolies, externalities, and ensuring equitable access. Excessive innovation is not a market failure justifying intervention."
+  },
+  {
+    id: 87, ch: "Policy", topic: "Pricing Strategy",
+    q: "A city metro system uses marginal cost pricing. The marginal cost of carrying one extra passenger on an existing train is close to zero. This means the system will likely:",
+    opts: ["A. Generate large profits that fund all infrastructure costs", "B. Require government subsidies or alternative revenue sources to cover substantial fixed infrastructure costs that fare revenue cannot recover", "C. Operate entirely without any funding from government", "D. Automatically adjust fares upward to cover costs"],
+    ans: "B",
+    exp: "The manual: 'In urban rail networks, while the cost of carrying one extra passenger may be minimal, the overall maintenance and infrastructure costs are very high. As a result, this pricing model may require government subsidies or alternative revenue sources to remain financially sustainable.'"
+  },
+  {
+    id: 88, ch: "Policy", topic: "Regulation vs Deregulation",
+    q: "The manual's discussion of deregulation vs regulation suggests that the choice between them depends on:",
+    opts: ["A. Only the preferences of the ruling political party", "B. The specific goals of the transport system — whether the priority is efficiency, financial sustainability, or accessibility — and the nature of the market", "C. The total number of vehicles in the country", "D. International pressure from foreign transport companies"],
+    ans: "B",
+    exp: "The manual: 'Both pricing models have their advantages and limitations, and the choice between them often depends on the specific goals of the transport system whether the priority is efficiency, financial sustainability, or accessibility.'"
+  },
+  {
+    id: 89, ch: "Policy", topic: "Sustainable Mobility",
+    q: "The manual identifies future trends in transport economics including sustainable mobility development. Which of the following is listed as a sustainable mobility solution?",
+    opts: ["A. Expansion of coal-powered locomotive networks", "B. Development of electric vehicles, high-speed rail, and shared mobility solutions", "C. Replacement of all rail with road transport", "D. Elimination of all public transport subsidies globally"],
+    ans: "B",
+    exp: "The manual: 'Sustainable Mobility: Development of electric vehicles, high-speed rail, and shared mobility solutions' is listed as a future trend in transport economics."
+  },
+  {
+    id: 90, ch: "Policy", topic: "Technology in Transport",
+    q: "The manual's section on Future Trends lists 'Technological Innovations' as impacting transport economics through:",
+    opts: ["A. Reduction in the number of transport routes available", "B. Impact of automation, artificial intelligence, and smart transport systems", "C. Return to animal-powered transport for environmental reasons", "D. Elimination of the private transport sector"],
+    ans: "B",
+    exp: "The manual: 'Technological Innovations: Impact of automation, artificial intelligence, and smart transport systems' is identified as a key future trend affecting transport economics."
+  },
+  {
+    id: 91, ch: "Policy", topic: "Urban Transport",
+    q: "The manual identifies urban transport challenges in future trends as including policies for addressing:",
+    opts: ["A. Declining urban population and empty roads", "B. Traffic congestion, smart cities, and integrated transport networks", "C. Over-supply of public transport in cities", "D. Excessive profitability of private urban operators"],
+    ans: "B",
+    exp: "The manual: 'Urban Transport Challenges: Policies for addressing traffic congestion, smart cities, and integrated transport networks' is listed as a future trend in transport economics."
+  },
+  {
+    id: 92, ch: "Policy", topic: "Nigeria Context",
+    q: "The manual notes that 'over the last four decades, Nigeria has witnessed rapid growth in the demand for public transport services.' The manual attributes this growth LARGELY to:",
+    opts: ["A. Government policy mandating public transport use", "B. Urbanisation, growth in population, and economic activity", "C. Reduction in private vehicle ownership", "D. International funding for Nigerian transport"],
+    ans: "B",
+    exp: "The manual explicitly states: 'Nigeria has witnessed rapid growth in the demand for public transport services due largely to urbanization, growth in population and economic activity.'"
+  },
+  {
+    id: 93, ch: "Policy", topic: "Health and Transport",
+    q: "According to the manual's discussion of transport's relationship with the health sector, efficient transport networks are important for health because they:",
+    opts: ["A. Produce medicines in mobile laboratories", "B. Enable people to reach hospitals and clinics more easily, and allow ambulances and medical supply distribution to function effectively", "C. Train doctors and nurses in mobile units", "D. Replace hospital visits with telemedicine entirely"],
+    ans: "B",
+    exp: "The manual: 'Access to Healthcare: People can reach hospitals and clinics more easily with good transport. Emergency Services: Ambulances and medevac services depend on efficient transport networks. Distribution of Medicine: Vaccines, medicines, and medical equipment rely on transport for timely delivery.'"
+  },
+  {
+    id: 94, ch: "Policy", topic: "Education and Transport",
+    q: "The manual links transport to the education sector through which of the following mechanisms?",
+    opts: ["A. Transport companies fund university research departments", "B. Students and teachers commute daily using transport systems, and better transport helps develop educational institutions in remote areas", "C. All educational content is delivered by transport operators", "D. Transport taxes exclusively fund school construction"],
+    ans: "B",
+    exp: "The manual: 'Access to Schools: Students and teachers commute daily using transport systems. Infrastructure Development: Better transport helps develop educational institutions in remote areas. Knowledge Exchange: Conferences, workshops, and academic exchange programs rely on transportation.'"
+  },
+  {
+    id: 95, ch: "Policy", topic: "Urban Planning",
+    q: "The manual identifies 'Property Values' as a link between transport and urban planning. According to the manual:",
+    opts: ["A. Transport routes always reduce property values by creating noise and pollution", "B. Proximity to transport links often INCREASES property value", "C. Property values are unrelated to transport accessibility", "D. Only government-owned properties benefit from transport links"],
+    ans: "B",
+    exp: "The manual: 'Property Values: Proximity to transport links often increases property value.' This is a positive externality of transport investment that influences urban land markets."
+  },
+  {
+    id: 96, ch: "Policy", topic: "Globalization",
+    q: "The manual states that the 'Impact of Globalization' is changing patterns in international trade and logistics. This means transport economists must understand how:",
+    opts: ["A. Countries can isolate themselves from global trade patterns", "B. Changing patterns in international trade and logistics affect transport demand, infrastructure needs, and supply chain management globally", "C. Globalization has made transport economics irrelevant", "D. Local transport systems are unaffected by global trade patterns"],
+    ans: "B",
+    exp: "The manual lists 'Impact of Globalization: Changing patterns in international trade and logistics' as a future trend requiring updated understanding of transport economics."
+  },
+  {
+    id: 97, ch: "Policy", topic: "Anti-competitive Regulation",
+    q: "The manual notes that government regulations prevent 'collusion or anti-competitive practices in the transport market.' Why is this important according to the manual?",
+    opts: ["A. To ensure government earns maximum tax from transport companies", "B. To ensure fair pricing and a level playing field for all service providers, ultimately protecting consumers", "C. To eliminate all private operators from the market", "D. To allow state enterprises to charge above-market prices"],
+    ans: "B",
+    exp: "The manual: 'Anti-competitive practices: Regulations prevent collusion or anti-competitive practices in the transport market, ensuring fair pricing and a level playing field for all service providers.'"
+  },
+  {
+    id: 98, ch: "Policy", topic: "Smart Cities",
+    q: "The manual's discussion of 'Smart Cities' in relation to transport suggests that their key characteristic is:",
+    opts: ["A. Cities that restrict all motorised transport", "B. Integration of transport with technology to improve efficiency and livability", "C. Cities with no public transport whatsoever", "D. Urban areas managed exclusively by private sector companies"],
+    ans: "B",
+    exp: "The manual: 'Smart Cities: Integration of transport with technology improves efficiency and livability.' Smart city development is presented as a future direction for urban transport planning."
+  },
+  {
+    id: 99, ch: "Policy", topic: "O&M PPP",
+    q: "Under the Operation and Maintenance (O&M) PPP model described in the manual, which party RETAINS OWNERSHIP of the transport infrastructure?",
+    opts: ["A. The private sector partner that operates the system", "B. The government, while the private partner ensures the asset remains functional and efficient", "C. An international development bank that funded construction", "D. Ownership is equally shared between public and private partners"],
+    ans: "B",
+    exp: "The manual: 'Operation and Maintenance (O&M): In this arrangement, the private sector partner is responsible for the ongoing operation and maintenance of transport infrastructure. The government retains ownership, but the private partner ensures the asset remains functional and efficient.'"
+  },
+  {
+    id: 100, ch: "Policy", topic: "Comprehensive Review",
+    q: "Which statement BEST synthesises the central argument of the ECO 210 Transport Economics manual regarding the relationship between transport and economic development?",
+    opts: ["A. Transport development alone is sufficient to guarantee economic prosperity in any country", "B. While transport is not a sufficient condition for development by itself, it is a crucial enabler — its absence constrains development, and its efficient provision generates positive multiplier effects across all sectors of the economy", "C. Only developed countries benefit from transport investment", "D. Economic development must be fully achieved before transport investment is worthwhile"],
+    ans: "B",
+    exp: "The manual synthesises this across multiple chapters: 'Transport by itself is not sufficient condition for development; however, the lack of transport infrastructure can be seen as a constraining factor on development.' Meanwhile, efficient transport 'provides economic and social opportunities and benefits that result in positive multiplier effects such as better accessibility to the markets, employment and additional investments.'"
+  }
+];
+
+const CHAPTERS = ["All", "Ch.1", "Ch.2", "Ch.3", "Ch.4", "Ch.5", "Ch.6", "Ch.7", "Ch.8", "Applied", "Policy"];
+const CH_LABELS = {
+  "All": "All Chapters",
+  "Ch.1": "Ch.1 – Introduction",
+  "Ch.2": "Ch.2 – Demand & Supply",
+  "Ch.3": "Ch.3 – Costs & Pricing",
+  "Ch.4": "Ch.4 – Market Structures",
+  "Ch.5": "Ch.5 – Modes of Transport",
+  "Ch.6": "Ch.6 – Externalities",
+  "Ch.7": "Ch.7 – Policy & Regulation",
+  "Ch.8": "Ch.8 – International Transport",
+  "Applied": "Applied Questions",
+  "Policy": "Policy & Future Trends"
+};
+
+// ===== STATE =====
+let filterCh = "All";
+let questions = [];
+let idx = 0;
+let answered = {}; // id -> {sel, correct}
+let score = 0;
+
+// ===== ELEMENT REFS =====
+const screens = {
+  home: document.getElementById('home'),
+  quiz: document.getElementById('quiz'),
+  summary: document.getElementById('summary')
+};
+
+function showScreen(name){
+  Object.values(screens).forEach(s => s.classList.add('hidden'));
+  screens[name].classList.remove('hidden');
+}
+
+// ===== HOME SCREEN SETUP =====
+const chipsEl = document.getElementById('chips');
+const chipInfoEl = document.getElementById('chipInfo');
+
+function filteredQuestions(){
+  return filterCh === "All" ? ALL_QUESTIONS : ALL_QUESTIONS.filter(q => q.ch === filterCh);
+}
+
+function renderChips(){
+  chipsEl.innerHTML = "";
+  CHAPTERS.forEach(ch => {
+    const btn = document.createElement('button');
+    btn.className = 'chip' + (filterCh === ch ? ' active' : '');
+    btn.textContent = ch === "All" ? "All (100)" : ch;
+    btn.addEventListener('click', () => {
+      filterCh = ch;
+      renderChips();
+      renderChipInfo();
+    });
+    chipsEl.appendChild(btn);
+  });
+}
+
+function renderChipInfo(){
+  const f = filteredQuestions();
+  chipInfoEl.textContent = filterCh === "All"
+    ? "All 100 questions selected"
+    : `${f.length} question${f.length !== 1 ? "s" : ""} in ${CH_LABELS[filterCh]}`;
+}
+
+renderChips();
+renderChipInfo();
+
+document.getElementById('startBtn').addEventListener('click', startQuiz);
+
+function startQuiz(){
+  questions = [...filteredQuestions()];
+  idx = 0;
+  answered = {};
+  score = 0;
+  showScreen('quiz');
+  renderQuestion();
+}
+
+// ===== QUIZ SCREEN =====
+const qIdxEl = document.getElementById('qIdx');
+const qTotalEl = document.getElementById('qTotal');
+const qScoreEl = document.getElementById('qScore');
+const progressFillEl = document.getElementById('progressFill');
+const badgeChEl = document.getElementById('badgeCh');
+const badgeTopicEl = document.getElementById('badgeTopic');
+const questionLabelEl = document.getElementById('questionLabel');
+const questionTextEl = document.getElementById('questionText');
+const optionsEl = document.getElementById('options');
+const explanationBoxEl = document.getElementById('explanationBox');
+const explanationTextEl = document.getElementById('explanationText');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+document.getElementById('quizHomeBtn').addEventListener('click', () => showScreen('home'));
+prevBtn.addEventListener('click', goPrev);
+nextBtn.addEventListener('click', goNext);
+
+function renderQuestion(){
+  const current = questions[idx];
+  const total = questions.length;
+  const alreadyDone = !!answered[current.id];
+  const userSel = answered[current.id] ? answered[current.id].sel : null;
+
+  qIdxEl.textContent = idx + 1;
+  qTotalEl.textContent = total;
+  qScoreEl.textContent = score;
+  progressFillEl.style.width = `${((idx + 1) / total) * 100}%`;
+
+  badgeChEl.textContent = current.ch;
+  badgeTopicEl.textContent = current.topic;
+
+  questionLabelEl.textContent = `Question ${current.id} of ${total}`;
+  questionTextEl.textContent = current.q;
+
+  // Options
+  optionsEl.innerHTML = "";
+  current.opts.forEach(opt => {
+    const letter = opt[0];
+    const isSel = userSel === letter;
+    const isRight = letter === current.ans;
+    const optBtn = document.createElement('button');
+    optBtn.className = 'option';
+
+    if (alreadyDone) {
+      optBtn.classList.add('disabled');
+      if (isRight) optBtn.classList.add('correct');
+      else if (isSel && !isRight) optBtn.classList.add('incorrect');
+    } else if (isSel) {
+      optBtn.classList.add('selected');
+    }
+
+    const letterSpan = document.createElement('span');
+    letterSpan.className = 'letter';
+    letterSpan.textContent = letter + ".";
+
+    const textSpan = document.createElement('span');
+    textSpan.className = 'opt-text';
+    textSpan.textContent = opt.slice(3);
+
+    optBtn.appendChild(letterSpan);
+    optBtn.appendChild(textSpan);
+
+    if (alreadyDone && isRight) {
+      const mark = document.createElement('span');
+      mark.className = 'mark mark-correct';
+      mark.textContent = '✓';
+      optBtn.appendChild(mark);
+    }
+    if (alreadyDone && isSel && !isRight) {
+      const mark = document.createElement('span');
+      mark.className = 'mark mark-incorrect';
+      mark.textContent = '✗';
+      optBtn.appendChild(mark);
+    }
+
+    optBtn.addEventListener('click', () => pick(letter));
+    optionsEl.appendChild(optBtn);
+  });
+
+  // Explanation
+  if (alreadyDone) {
+    explanationBoxEl.classList.remove('hidden');
+    explanationTextEl.textContent = current.exp;
+  } else {
+    explanationBoxEl.classList.add('hidden');
+  }
+
+  prevBtn.disabled = idx === 0;
+  nextBtn.textContent = idx === total - 1 ? "Finish & See Results →" : "Next →";
+}
+
+function pick(letter){
+  const current = questions[idx];
+  if (answered[current.id]) return;
+  const correct = letter === current.ans;
+  answered[current.id] = { sel: letter, correct };
+  if (correct) score++;
+  renderQuestion();
+}
+
+function goNext(){
+  const total = questions.length;
+  if (idx < total - 1) {
+    idx++;
+    renderQuestion();
+  } else {
+    renderSummary();
+    showScreen('summary');
+  }
+}
+
+function goPrev(){
+  if (idx > 0) {
+    idx--;
+    renderQuestion();
+  }
+}
+
+// ===== SUMMARY SCREEN =====
+const summaryEmojiEl = document.getElementById('summaryEmoji');
+const summaryGradeEl = document.getElementById('summaryGrade');
+const summaryPctEl = document.getElementById('summaryPct');
+const summarySubEl = document.getElementById('summarySub');
+const summaryBarEl = document.getElementById('summaryBar');
+const breakdownRowsEl = document.getElementById('breakdownRows');
+
+document.getElementById('homeBtn2').addEventListener('click', () => showScreen('home'));
+document.getElementById('retryBtn').addEventListener('click', startQuiz);
+document.getElementById('reviewBtn').addEventListener('click', () => {
+  idx = 0;
+  showScreen('quiz');
+  renderQuestion();
+});
+
+function renderSummary(){
+  const total = questions.length;
+  const pct = total > 0 ? Math.round((score / total) * 100) : 0;
+
+  let grade, gc, emoji;
+  if (pct >= 70) { grade = "PASS ✓"; gc = "#22c55e"; emoji = "🎓"; }
+  else if (pct >= 50) { grade = "FAIR — REVIEW NEEDED"; gc = "#f59e0b"; emoji = "📖"; }
+  else { grade = "FAIL — STUDY MORE"; gc = "#ef4444"; emoji = "📚"; }
+
+  summaryEmojiEl.textContent = emoji;
+  summaryGradeEl.textContent = grade;
+  summaryGradeEl.style.color = gc;
+  summaryPctEl.textContent = pct + "%";
+  summarySubEl.textContent = `${score} correct out of ${total} questions`;
+  summaryBarEl.style.width = pct + "%";
+  summaryBarEl.style.background = gc;
+
+  // Breakdown
+  breakdownRowsEl.innerHTML = "";
+  ["Ch.1","Ch.2","Ch.3","Ch.4","Ch.5","Ch.6","Ch.7","Ch.8","Applied","Policy"].forEach(ch => {
+    const cqs = ALL_QUESTIONS.filter(q => q.ch === ch && answered[q.id]);
+    if (!cqs.length) return;
+    const cCorrect = cqs.filter(q => answered[q.id] && answered[q.id].correct).length;
+    const cpct = Math.round((cCorrect / cqs.length) * 100);
+    const barColor = cpct >= 70 ? "#22c55e" : cpct >= 50 ? "#f59e0b" : "#ef4444";
+
+    const row = document.createElement('div');
+    row.className = 'bd-row';
+
+    const chLabel = document.createElement('div');
+    chLabel.className = 'bd-ch';
+    chLabel.textContent = ch;
+
+    const track = document.createElement('div');
+    track.className = 'bd-track';
+    const fill = document.createElement('div');
+    fill.className = 'bd-fill';
+    fill.style.width = cpct + "%";
+    fill.style.background = barColor;
+    track.appendChild(fill);
+
+    const scoreLabel = document.createElement('div');
+    scoreLabel.className = 'bd-score';
+    scoreLabel.textContent = `${cCorrect}/${cqs.length}`;
+
+    row.appendChild(chLabel);
+    row.appendChild(track);
+    row.appendChild(scoreLabel);
+    breakdownRowsEl.appendChild(row);
+  });
+}
+</script>
+</body>
+</html>
