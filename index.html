@@ -1966,7 +1966,7 @@ const ALL_QUESTIONS = [
 }
 ];
 
-const CHAPTERS = ["All", "Ch.1", "Ch.2", "Ch.3", "Ch.4", "Ch.5", "Ch.6", "Ch.7", "Ch.8", "Applied", "Policy", "set2"];
+const CHAPTERS = ["All", "Ch.1", "Ch.2", "Ch.3", "Ch.4", "Ch.5", "Ch.6", "Ch.7", "Ch.8", "Applied", "Policy", "set 2"];
 const CH_LABELS = {
   "All": "All Chapters",
   "Ch.1": "Ch.1 – Introduction",
@@ -1979,7 +1979,7 @@ const CH_LABELS = {
   "Ch.8": "Ch.8 – International Transport",
   "Applied": "Applied Questions",
   "Policy": "Policy & Future Trends",
-  "Set 2": "New Questions"
+  "Set 2": "Set 2"
 };
 
 // ===== STATE =====
@@ -2200,7 +2200,7 @@ function renderSummary(){
 
   // Breakdown
   breakdownRowsEl.innerHTML = "";
-  ["Ch.1","Ch.2","Ch.3","Ch.4","Ch.5","Ch.6","Ch.7","Ch.8","Applied","Policy"].forEach(ch => {
+  ["Ch.1","Ch.2","Ch.3","Ch.4","Ch.5","Ch.6","Ch.7","Ch.8","Applied","Policy","Set 2"].forEach(ch => {
     const cqs = ALL_QUESTIONS.filter(q => q.ch === ch && answered[q.id]);
     if (!cqs.length) return;
     const cCorrect = cqs.filter(q => answered[q.id] && answered[q.id].correct).length;
